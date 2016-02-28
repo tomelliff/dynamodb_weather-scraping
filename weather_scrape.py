@@ -13,6 +13,10 @@ def get_forecast_for_postcode(postcode):
 
   logging.debug("Status code: {}".format(r.status_code))
 
+  if r.status_code != requests.codes.ok:
+    logging.error("Request for {0} returned status code {1}".format(r.url, r.status_code))
+    r.raise_for_status()
+
   data = r.text
 
   soup = BeautifulSoup(data, 'html.parser')
