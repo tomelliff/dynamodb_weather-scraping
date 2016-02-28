@@ -33,10 +33,25 @@ def get_forecast_date(soup):
 
   return date
 
+def get_forecast(soup):
+  forecast = []
+
+  for hour in soup.find_all('span', { "class" : "hour" }):
+    logging.debug(hour.string)
+    hour_dict = { 'hour': hour.string }
+    logging.debug(hour_dict)
+    forecast.append(hour_dict)
+
+  return forecast
+
 def main():
   soup = get_forecast_for_postcode('NN1')
 
   forecast_date = get_forecast_date(soup)
+
+  forecast = get_forecast(soup)
+
+  logging.info(forecast)
 
 if __name__ == '__main__':
   main()
