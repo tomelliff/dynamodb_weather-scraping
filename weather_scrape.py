@@ -40,11 +40,21 @@ def get_forecast_date(soup):
 def get_forecast(soup):
   forecast = []
 
-  for hour in soup.find_all('span', { "class" : "hour" }):
+  for hour in soup.find_all('span', {'class': 'hour'}):
     logging.debug(hour.string)
     hour_dict = { 'hour': hour.string }
     logging.debug(hour_dict)
     forecast.append(hour_dict)
+
+  i = 0
+
+  for conditions_block in soup.find('tr', {'class': 'weather-type'}).find_all('td'):
+    img_element = conditions_block.find('img')
+    if img_element:
+       conditions = img_element['alt']
+       logging.debug(conditions)
+       forecast[i]['weather-conditions'] = conditions
+    i += 1
 
   return forecast
 
