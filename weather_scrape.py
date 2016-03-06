@@ -56,6 +56,16 @@ def get_forecast(soup):
        forecast[i]['weather-conditions'] = conditions
     i += 1
 
+  j = 0
+
+  for temperature_block in soup.find('tr', {'class': 'temperature'}).find_all('td'):
+    temperature_element = temperature_block.find('span', {'data-unit': 'c'})
+    if temperature_element:
+      logging.debug(temperature_element)
+      temperature_celsius = temperature_element.contents[0]
+      forecast[j]['temperature-celsius'] = temperature_celsius
+    j += 1
+
   return forecast
 
 def main():
