@@ -66,6 +66,21 @@ def get_forecast(soup):
       forecast[j]['temperature-celsius'] = temperature_celsius
     j += 1
 
+  k = 0
+
+  for wind_block in soup.find('tr', {'class': 'windspeed'}).find_all('td'):
+    wind_element = wind_block.find('span', {'class': 'wind'})
+    if wind_element:
+      logging.debug(wind_element)
+      wind_speed_mph = wind_element.find('span', {'data-unit': 'mph'}).contents[0]
+      logging.debug(wind_speed_mph)
+      wind_direction = wind_element.find('span', {'class': 'description'}).string
+      logging.debug(wind_direction)
+      wind_dict = {'direction': wind_direction, 'speed-mph': wind_speed_mph}
+      logging.debug(wind_dict)
+      forecast[k]['wind'] = wind_dict
+    k += 1
+
   return forecast
 
 def main():
