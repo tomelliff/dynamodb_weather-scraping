@@ -29,11 +29,11 @@ def get_forecast_date(soup):
     if "Weather forecast details for" in caption.string:
       date_string = caption.string.split('\n', 1)[0]
 
-  logging.info(date_string)
+  logging.debug(date_string)
 
   date = dparser.parse(date_string, fuzzy=True).date()
 
-  logging.info(date)
+  logging.debug(date)
 
   return date
 
@@ -88,9 +88,11 @@ def main():
 
   forecast_date = get_forecast_date(soup)
 
+  logging.info("forecast date: {}".format(forecast_date))
+
   forecast = get_forecast(soup)
 
-  logging.info(forecast)
+  logging.info("forecast: {}".format(forecast))
 
 if __name__ == '__main__':
   main()
